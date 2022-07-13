@@ -1,6 +1,6 @@
 #define ROW 5
 #define COL 5
-#define NUM 5
+#define NUM 10
 #include <stdio.h>
 void coutMass(int *mass, int, int);
 void fillMass(int *mass, int, int);
@@ -10,13 +10,17 @@ void fillsnMass(int *mass, int, int);
 int main()
 {
     int twMass[ROW][COL];
-    int onMass[NUM] = {1, 2, 3, 4, 5};
+    int onMass[NUM];
     //#1
     printf("#1 Filling massive: \n");
     fillMass(&twMass[0][0], ROW, COL);
     coutMass(&twMass[0][0], ROW, COL);
     printf("\n\n");
     //#2
+    for (int i = 1; i <= NUM; i++)
+    {
+        onMass[i - 1] = i;
+    }
     printf("#2 Invert massive: \n");
     coutMass(&onMass[0], 1, NUM);
     invMass(&onMass[0], NUM);
