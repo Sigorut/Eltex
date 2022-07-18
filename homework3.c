@@ -45,7 +45,7 @@ void bToMenu()
         ;
     system("clear");
 }
-void open(struct User *book, short int exR[])
+void openRecords(struct User *book, short int exR[])
 {
     short int count = 0;
     for (int i = 0; i < N; i++)
@@ -75,7 +75,7 @@ void addRecords(struct User *book, short int *exRec)
 void delRecords(struct User *book, short int *exRec, int hmRec)
 {
     short int indexEntryForDel;
-    open(&book[0], exRec);
+    openRecords(&book[0], exRec);
     printf("Which entry to delete?\n");
     scanf("%hd", &indexEntryForDel);
     while (getchar() != '\n')
@@ -83,7 +83,7 @@ void delRecords(struct User *book, short int *exRec, int hmRec)
     while (indexEntryForDel > hmRec - 1 || indexEntryForDel < 0)
     {
         system("clear");
-        open(&book[0], exRec);
+        openRecords(&book[0], exRec);
         printf("Input correct data! \n>");
         printf("Which entry to delete?\n");
         scanf("%hd", &indexEntryForDel);
@@ -106,6 +106,38 @@ void delRecords(struct User *book, short int *exRec, int hmRec)
             count++;
         }
     }
+}
+void searchRecords(struct User *book, short int exRec[])
+{
+    char enty[32];
+    short int count = 0;
+    short int exLocRec[N];
+    for (int i = 0; i < N; i++)
+    {
+        exLocRec[i] = exRec[i];
+    }
+    printf("Search record by number\n");
+    scanf("%s", enty);
+    while (getchar() != '\n')
+        ;
+    for (int i = 0; i < N; i++)
+    {
+        if (exLocRec[i] == 1)
+        {
+            count = 0;
+            while (enty[count] != '\0')
+            {
+                if (book[i].number[count] != enty[count])
+                {
+                    exLocRec[i] = 0;
+                }
+                count++;
+            }
+        }
+    }
+    system("clear");
+    printf("Searching results\n");
+    openRecords(&book[0], exLocRec);
 }
 int main()
 {
@@ -138,13 +170,13 @@ int main()
             }
             else
             {
-                open(&book[0], exRecords);
+                openRecords(&book[0], exRecords);
             }
             bToMenu();
             break;
         case add:
             printf("add book\n");
-            if (hmRecords == (N - 1))
+            if (hmRecords == N)
             {
                 printf("Book is full...(\n");
             }
@@ -176,7 +208,7 @@ int main()
             }
             else
             {
-                //
+                searchRecords(&book[0], exRecords);
             }
             bToMenu();
             break;
