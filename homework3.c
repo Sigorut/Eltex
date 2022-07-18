@@ -3,11 +3,12 @@
 #define N 10
 #include <stdio.h>
 #include <stdlib.h>
-struct user
+#include <string.h>
+struct User
 {
-    char *firstName;
-    char *lastName;
-    char *number;
+    char firstName[32];
+    char lastName[32];
+    char number[32];
 };
 void menu()
 {
@@ -44,9 +45,75 @@ void bToMenu()
         ;
     system("clear");
 }
+void open(struct User *book, short int exR[])
+{
+    short int count = 0;
+    for (int i = 0; i < N; i++)
+    {
+        if (exR[i] == 1)
+        {
+            printf("%hd)\t%s\t%s\t%s\n", count, book[i].number, book[i].firstName, book[i].lastName);
+            count++;
+        }
+    }
+}
+void addRecords(struct User *book, short int *exRec)
+{
+    for (int i = 0; i < N; i++)
+    {
+        if (exRec[i] == 0)
+        {
+            printf("Input firsname,lastname, number\n >");
+            scanf("%s", book[i].firstName);
+            scanf("%s", book[i].lastName);
+            scanf("%s", book[i].number);
+            exRec[i] = 1;
+            break;
+        }
+    }
+}
+void delRecords(struct User *book, short int *exRec, int hmRec)
+{
+    short int indexEntryForDel;
+    open(&book[0], exRec);
+    printf("Which entry to delete?\n");
+    scanf("%hd", &indexEntryForDel);
+    while (getchar() != '\n')
+        ;
+    while (indexEntryForDel > hmRec - 1 || indexEntryForDel < 0)
+    {
+        system("clear");
+        open(&book[0], exRec);
+        printf("Input correct data! \n>");
+        printf("Which entry to delete?\n");
+        scanf("%hd", &indexEntryForDel);
+        while (getchar() != '\n')
+            ;
+    }
+    int count = 0;
+    for (int i = 0; i < N; i++)
+    {
+        if (count == indexEntryForDel)
+        {
+            memset(book[i].firstName, '\0', sizeof(book[i].number));
+            memset(book[i].lastName, '\0', sizeof(book[i].number));
+            memset(book[i].number, '\0', sizeof(book[i].number));
+            exRec[i] = 0;
+            break;
+        }
+        if (exRec[i] == 1)
+        {
+            count++;
+        }
+    }
+}
 int main()
 {
+
     short int key;
+    struct User book[N];
+    short int exRecords[N] = {0};
+    short int hmRecords = 0;
     enum
     {
         check,
@@ -55,7 +122,7 @@ int main()
         search,
         exit
     };
-    struct user book[N];
+
     while (1)
     {
         menu();
@@ -65,22 +132,52 @@ int main()
         {
         case check:
             printf("open book\n");
-
+            if (hmRecords == 0)
+            {
+                printf("Book is empty...(\n");
+            }
+            else
+            {
+                open(&book[0], exRecords);
+            }
             bToMenu();
             break;
         case add:
             printf("add book\n");
-
+            if (hmRecords == (N - 1))
+            {
+                printf("Book is full...(\n");
+            }
+            else
+            {
+                addRecords(&book[0], &exRecords[0]);
+                hmRecords++;
+            }
             bToMenu();
             break;
         case delete:
             printf("delete book\n");
-
+            if (hmRecords == 0)
+            {
+                printf("Book is empty...(\n");
+            }
+            else
+            {
+                delRecords(&book[0], &exRecords[0], hmRecords);
+                hmRecords--;
+            }
             bToMenu();
             break;
         case search:
             printf("search book\n");
-
+            if (hmRecords == 0)
+            {
+                printf("Book is empty...(\n");
+            }
+            else
+            {
+                //
+            }
             bToMenu();
             break;
         case exit:
