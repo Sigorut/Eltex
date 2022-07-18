@@ -3,7 +3,6 @@
 #define N 10
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 struct User
 {
     char firstName[32];
@@ -130,6 +129,7 @@ void searchRecords(struct User *book, short int exRec[])
                 if (book[i].number[count] != enty[count])
                 {
                     exLocRec[i] = 0;
+                    break;
                 }
                 count++;
             }
