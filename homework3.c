@@ -3,6 +3,7 @@
 #define N 10
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 struct User
 {
     char firstName[32];
@@ -94,8 +95,8 @@ void delRecords(struct User *book, short int *exRec, int hmRec)
     {
         if (count == indexEntryForDel)
         {
-            memset(book[i].firstName, '\0', sizeof(book[i].number));
-            memset(book[i].lastName, '\0', sizeof(book[i].number));
+            memset(book[i].firstName, '\0', sizeof(book[i].firstName));
+            memset(book[i].lastName, '\0', sizeof(book[i].lastName));
             memset(book[i].number, '\0', sizeof(book[i].number));
             exRec[i] = 0;
             break;
